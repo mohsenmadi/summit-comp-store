@@ -7,10 +7,10 @@ export interface Order {
   quantity: number;
 }
 
-export const createOrder = (quantity: string, product: Product) => {
+export const createOrder = (quantity: number, product: Product) => {
   return {
     id: product.id,
-    quantity: +quantity,
+    quantity: quantity,
     cost: product.cost,
     name: product.name
   } as Order;

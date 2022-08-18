@@ -14,7 +14,7 @@ export class BoutiqueComponent {
   constructor(private store: OperationsService) {
   }
 
-  addOrder(quantity: string, product: Product) {
+  addOrder(quantity: number, product: Product) {
     this.store.addOrder(quantity, product);
   }
 }

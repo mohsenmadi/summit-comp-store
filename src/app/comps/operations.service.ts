@@ -52,7 +52,7 @@ export class OperationsService extends ComponentStore<OperationsState> {
     products
   }));
 
-  readonly addOrder = (quantity: string, product: Product) => {
+  readonly addOrder = (quantity: number, product: Product) => {
     const newOrder = createOrder(quantity, product);
     this.ordersMap.set(product.id, newOrder);
     const orders = getOrdersWithQuantity([...this.ordersMap.values()]);
