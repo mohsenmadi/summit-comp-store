@@ -53,6 +53,7 @@ export class OperationsService {
   //   1. * `products` is state-managed, so if we create a selector for it,
   //      it's instantly available for any subscriber (here or in components).
   //      Create the selector for it. Should be the same name + $.
+  //   2. While we're at it, create a selector for `earnings$` too.
 
   updateSales(orders: Order[]) {
     updateSoldProperty(this.products, orders);
