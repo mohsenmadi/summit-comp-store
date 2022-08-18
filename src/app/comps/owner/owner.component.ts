@@ -20,6 +20,8 @@ export class OwnerComponent implements OnInit {
   //   3. yep, all owner needs to be concerned with is `earnings$` for growth n'all;
   //      using the selector you created in 6.2, so make `earnings` here become
   //      `earnings$` and initialize it to that of the store's (... one thing left!)
+  //   4. Remember, every time you remove an @Input or an @Output from the
+  //      children, clean up Owner's template accordingly
 
   products!: Product[];
   orders!: Order[];

@@ -32,6 +32,8 @@ export class OperationsService {
     {id: 60, sold: 0, name: 'Swim suit', cost: 15}
   ];
 
+  private ordersMap = new Map<number, Order>;
+
   // TODO-3:
   //   1. Extending a parent? then `super(...)` initialize it
   //      with your default object
@@ -54,6 +56,14 @@ export class OperationsService {
   //      it's instantly available for any subscriber (here or in components).
   //      Create the selector for it. Should be the same name + $.
   //   2. While we're at it, create a selector for `earnings$` too.
+  //   3. You need to more... go for them
+
+  // TODO-18:
+  //   At this time, you have have an error-free running app since all selectors
+  //   are nicely available. What's needed now is to sync data up upon events
+  //   received from the components. Let's handle what happens when an `addOrder()`
+  //   is triggered:
+  //   1. create a readonly `addOrder` method that receives a
 
   updateSales(orders: Order[]) {
     updateSoldProperty(this.products, orders);
