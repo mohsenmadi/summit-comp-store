@@ -63,7 +63,22 @@ export class OperationsService {
   //   are nicely available. What's needed now is to sync data up upon events
   //   received from the components. Let's handle what happens when an `addOrder()`
   //   is triggered:
-  //   1. create a readonly `addOrder` method that receives a
+  //   1. create a readonly `addOrder` method that receives a `quantity` and
+  //      the `product` ordered
+  //   2. get a `newOrder` by calling the `createOrder` method
+  //   3. using `product.id` as key, "set" your `newOrder` in the `ordersMap`
+  //   4. * tune the `orders` with the `getOrdersWithQuantity` method; this refinement
+  //      is needed when the Buyer selects a quantity and then zeros it out;
+  //      we don't need to see orders with 0 quantity in the Buyer's table
+  //   That's it! We now have `orders` sync'ed up, which means we also know can know
+  //   the `paymentDue` should the Buyer decides to `makePayment()`, so:
+  //   5. patch the state of `orders`, and
+  //   6. * patch the state of `paymentDue` using the help of `getPaymentDue(...) method
+  //   Now, suddenly, you should see both the Buyer's table and the running total get
+  //   updated with every new order made (i.e., blurred)!
+  //   Why? Because they're sync'ed through `orders$` and `paymentDue$`
+
+  // uncomment and finish this: readonly addOrder = ...
 
   updateSales(orders: Order[]) {
     updateSoldProperty(this.products, orders);
@@ -105,4 +120,9 @@ export class OperationsService {
 
 // 6.1   readonly products$ = this.select(({products}) => products);    or equally:
 //       readonly products$ = this.select(state => state.products);
+
+// 18.4  const orders = getOrdersWithQuantity([...this.ordersMap.values()]);
+
+// 18.6  this.patchState({paymentDue: getPaymentDue(orders)}); (shortest style)
+//       see https://ngrx.io/guide/component-store/write for other styles
 

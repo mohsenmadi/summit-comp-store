@@ -22,7 +22,7 @@
     <td mat-cell *matCellDef="let product;">
       <mat-form-field appearance="outline" floatLabel="never">
         <input matInput #quantity
-               (blur)="addOrder(quantity.value, product)">
+               (blur)="addOrder(+quantity.value, product)">
       </mat-form-field>
     </td>
   </ng-container>

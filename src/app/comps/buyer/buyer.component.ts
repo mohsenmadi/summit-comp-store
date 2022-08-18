@@ -14,7 +14,7 @@ export class BuyerComponent implements OnChanges {
   //   2. the `@Output`
   //   3. now that `orders$` can be sync'ed up in store, that's
   //      you `dataSource`
-  //   4. and... deal with `paymentDue` too
+  //   4. * and... deal with `paymentDue` too
   @Input() orders: Order[] = [];
   @Output() emitPayment = new EventEmitter<number>();
 
@@ -41,3 +41,8 @@ export class BuyerComponent implements OnChanges {
     this.dataSource = [];
   }
 }
+
+// 15.4 in the template, Lines 28+ should become:
+// <ng-container *ngIf="paymentDue$ | async as paymentDue">
+//   {{ paymentDue | currency }}
+// </ng-container>

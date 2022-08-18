@@ -47,7 +47,7 @@ export class BoutiqueComponent implements OnInit, OnChanges, OnInit {
 
   // TODO-14:
   //    1. all that's needed here is delegate the work to the store's `addOrder(...)`
-  addOrder(quantity: string, product: Product) {
+  addOrder(quantity: number, product: Product) {
     const newOrder = createOrder(quantity, product);
     this.ordersMap.set(product.id, newOrder);
     this.emitOrders.emit([...this.ordersMap.values()]);
