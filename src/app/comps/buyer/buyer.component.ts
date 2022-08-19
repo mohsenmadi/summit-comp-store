@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { getOrderItemsWithQuantity, getPaymentDue, OrderItem } from "../order.model";
+import { getOrderItemsWithQuantity, getPaymentDue, OrderItem } from "../order-item.model";
 
 @Component({
   selector: 'app-buyer',

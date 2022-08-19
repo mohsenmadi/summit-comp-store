@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OperationsService } from "../operations.service";
-import { OrderItem } from "../order.model";
+import { OrderItem } from "../order-item.model";
 import { Product } from "../product.model";
 
 // TODO-7:

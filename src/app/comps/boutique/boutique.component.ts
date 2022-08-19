@@ -7,7 +7,7 @@ import {
   Output
 } from '@angular/core';
 import { Product } from "../product.model";
-import { createOrderItem, OrderItem } from "../order.model";
+import { createOrderItem, OrderItem } from "../order-item.model";
 
 @Component({
   selector: 'app-boutique',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Product, updateSoldProperty } from './product.model';
-import { OrderItem } from "./order.model";
+import { OrderItem } from "./order-item.model";
 
 // TODO-1:
 //   1. [done] `npm i @ngrx/component-store`
