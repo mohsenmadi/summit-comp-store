@@ -7,13 +7,13 @@ import { OrderItem } from "./order.model";
 //   2. * Think: the state of what properties do we need to maintain?
 //      Then, create an interface `OperationsState` that houses them
 //      When done, cross-check with Accelerator#1.2 below
-//   3. * What would the default (initial) value be for each object?
-//      Then, create an object `defaultState` of type `OperationsState`
-//      that sets them
+//   3. * What would the default (initial) value be for each property?
+//      Create an object `defaultState` of type `OperationsState`
+//      that sets them right
 //   4. Although an Injectable, we don't need the store at the `root`
 //      level; its' needed only in the `providers` list at the component
 //      that needs it; it's children will have access to it naturally;
-//      make it @Injectable()
+//      make it just an @Injectable()
 @Injectable({
   providedIn: 'root'
 })
@@ -32,13 +32,14 @@ export class OperationsService {
     {id: 60, sold: 0, name: 'Swim suit', cost: 15}
   ];
 
+  // leave this as is, you'll need it later
   private orderMap = new Map<number, OrderItem>;
 
   // TODO-3:
   //   1. Extending a parent? then `super(...)` initialize it
   //      with your default object
 
-  // TODO-5:
+  // TODO-5: (*** do TODO-4 first ***)
   //   1. Let's `loadProducts()` in the constructor so that `products` is
   //      loaded and ready in the components that need it
   constructor() {
@@ -46,7 +47,8 @@ export class OperationsService {
 
   // TODO-4:
   //   1. * Our most important property is `products`. Only after its set
-  //      can we view the Boutique and make `order`, calculate `paymentDue`
+  //      can we view the Boutique, keep selecting `orderItem`s with some
+  //      `quantity`, to make an overall `order`, calculate its `paymentDue`
   //      and keep our total `earnings` in check after every payment.
   //      So, let's create a `setState` method that immutably returns the state,
   //      but overrides the default setting with our list of fresh `products`
@@ -56,29 +58,31 @@ export class OperationsService {
   //      it's instantly available for any subscriber (here or in components).
   //      Create the selector for it. Should be the same name + $.
   //   2. While we're at it, create a selector for `earnings$` too.
-  //   3. You need to more... go for them
+  //   3. You need two more... go for them right now
 
   // TODO-18:
   //   At this time, you have have an error-free running app since all selectors
   //   are nicely available. What's needed now is to sync data up upon receiving
   //   events form the UI. Let's handle what happens when an `addOrder()`
   //   is triggered:
-  //   1. create a readonly `addOrder` method that receives the `quantity` and
+  //   1. [done] create a readonly `addOrderItem` method that receives the `quantity` and
   //      the `product` ordered
-  //   2. get a `newOrder` by calling the `createOrder` method
-  //   3. using `product.id` as key, "set" (add/modify) your `newOrder` in the `orderMap`
+  //   2. get a `newOrderItem` by calling the `createOrderItem` method
+  //   3. using `product.id` as key, "set" (add/modify) your `newOrderItem` in the `orderMap`
   //   4. * tune the `order` with the `getOrderItemsWithQuantity` method; this refinement
   //      is needed when the Buyer selects a quantity and then zeros it out;
   //      we don't need to see orderItems with 0 quantity in the Buyer's table
   //   That's it! We now have `order` sync'ed up, which also means we can know
   //   the `paymentDue` should the Buyer decides to `makePayment()`, so:
-  //   5. patch the state of `order` which you got in the previous step, and
-  //   6. * patch the state of `paymentDue` using the help of `getPaymentDue(...) method
+  //   5. patch the state of `order` with what you got in the previous step, and
+  //   6. * patch the state of `paymentDue` using the help of `getPaymentDue(...) method.
   //   Now, suddenly, you should see both the Buyer's table and the running total get
-  //   updated with every new order made (i.e., when the Buyer blurs)!
+  //   updated with every new order made (i.e., upon `blur` events)!
   //   Why? Because they're sync'ed through `order$` and `paymentDue$`
 
-  // uncomment and finish this: readonly addOrder = ...
+  readonly addOrderItem = (quantity:number, product: Product) => {
+    // issue the five statements needed here
+  }
 
   updateSales(order: OrderItem[]) {
     updateSoldProperty(this.products, order);
@@ -87,7 +91,7 @@ export class OperationsService {
   // TODO-19:
   //   create a `makePayment()` method that does this: When the Buyer
   //   clicks the buy (shop-cart), it does this:
-  //   1. * use rxjs's zip() on `earnings$` and `this.paymentDue$`
+  //   1. * use RxJS' zip() on `earnings$` and `paymentDue$`
   //   2. patchState of `earnings` by adding zip's observables
   //   we can now:
   //   3. patchState of `paymentDue` to be zero

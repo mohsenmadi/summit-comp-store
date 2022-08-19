@@ -26,7 +26,8 @@ export class BoutiqueComponent implements OnInit, OnChanges, OnInit {
   orderMap = new Map<number, OrderItem>;
 
   // TODO-11:
-  //   1. `dataSource` feeder now comes from the store, set it right
+  //   1. `dataSource` feeder now comes from the store, initialize it to that, but
+  //   2. add a `constructor` and inject the `store` first
   dataSource: any;
   displayedColumns: string[] = ['sold', 'name', 'cost', 'quantity'];
 
@@ -46,7 +47,8 @@ export class BoutiqueComponent implements OnInit, OnChanges, OnInit {
   }
 
   // TODO-14:
-  //    1. all that's needed here is delegate the work to the store's `addOrder(...)`
+  //    1. all that's needed here is delegate the work to the
+  //    store's `addOrderItem(...)` you will complete in the store
   addOrderItem(quantity: number, product: Product) {
     const newOrderItem = createOrderItem(quantity, product);
     this.orderMap.set(product.id, newOrderItem);
