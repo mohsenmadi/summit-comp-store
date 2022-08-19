@@ -1,24 +1,24 @@
 import { Product } from "./product.model";
 
-export interface Order {
+export interface OrderItem {
   id: number;
   cost: number;
   name: string;
   quantity: number;
 }
 
-export const createOrder = (quantity: number, product: Product) => {
+export const createOrderItem = (quantity: number, product: Product) => {
   return {
     id: product.id,
     quantity: quantity,
     cost: product.cost,
     name: product.name
-  } as Order;
+  } as OrderItem;
 };
 
-export const getPaymentDue = (orders: Order[]) =>
-  orders?.reduce((acc, order) =>
+export const getPaymentDue = (order: OrderItem[]) =>
+  order?.reduce((acc, order) =>
     acc + order.cost * order.quantity, 0);
 
-export const getOrdersWithQuantity = (orders: Order[]) =>
-  orders?.filter(order => order.quantity > 0);
+export const getOrderItemsWithQuantity = (order: OrderItem[]) =>
+  order?.filter(order => order.quantity > 0);

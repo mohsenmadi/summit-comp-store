@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { getOrdersWithQuantity, getPaymentDue, Order } from "../order.model";
+import { getOrderItemsWithQuantity, getPaymentDue, OrderItem } from "../order.model";
 
 @Component({
   selector: 'app-buyer',
@@ -12,10 +12,10 @@ export class BuyerComponent implements OnChanges {
   //   With the right updaters, patchers and selectors, we can do without
   //   1. the `@Input`
   //   2. the `@Output`
-  //   3. now that `orders$` can be sync'ed up in store, that's
+  //   3. now that `order$` can be sync'ed up in store, that's
   //      you `dataSource`
   //   4. * and... deal with `paymentDue` too
-  @Input() orders: Order[] = [];
+  @Input() order: OrderItem[] = [];
   @Output() emitPayment = new EventEmitter<number>();
 
   paymentDue = 0;
@@ -26,9 +26,9 @@ export class BuyerComponent implements OnChanges {
   // TODO-16:
   //   1. will no longer need any of this method's statements! delete it
   ngOnChanges() {
-    this.orders = getOrdersWithQuantity(this.orders);
-    this.paymentDue = getPaymentDue(this.orders);
-    this.dataSource = this.orders;
+    this.order = getOrderItemsWithQuantity(this.order);
+    this.paymentDue = getPaymentDue(this.order);
+    this.dataSource = this.order;
   }
 
   // TODO-17:

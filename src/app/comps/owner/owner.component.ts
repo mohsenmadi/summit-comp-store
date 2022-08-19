@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OperationsService } from "../operations.service";
-import { Order } from "../order.model";
+import { OrderItem } from "../order.model";
 import { Product } from "../product.model";
 
 // TODO-7:
@@ -16,7 +16,7 @@ export class OwnerComponent implements OnInit {
   // TODO-8:
   //   Make Owner happy! he's only concerned with "earnings", so:
   //   1. ditch `products`; boutique component can get it's products from store
-  //   2. ditch `orders`; buyer component knows best how to get its data
+  //   2. ditch `order`; buyer component knows best how to get its data
   //   3. yep, all owner needs to be concerned with is `earnings$` for growth n'all;
   //      using the selector you created in 6.2, so make `earnings` here become
   //      `earnings$` and initialize it to that of the store's (... one thing left!)
@@ -24,7 +24,7 @@ export class OwnerComponent implements OnInit {
   //      children, clean up Owner's template accordingly
 
   products!: Product[];
-  orders!: Order[];
+  order!: OrderItem[];
   earnings: number = 0
 
   constructor(private store: OperationsService) { }
@@ -35,14 +35,14 @@ export class OwnerComponent implements OnInit {
     this.products = this.store.products;
   }
 
-  collectOrder(orders: Order[]) {
-    this.orders = orders;
+  collectOrder(order: OrderItem[]) {
+    this.order = order;
   }
 
   // logic here will be partially ported to service...
   receivePayment(newPayment: number) {
     this.earnings += newPayment;
-    this.store.updateSales(this.orders);
+    this.store.updateSales(this.order);
     const products = this.products;
     this.products = [];
     setTimeout(() => {

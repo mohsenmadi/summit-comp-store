@@ -8,13 +8,13 @@
 <div class="parent">
   <div class="child">
     <app-boutique [products]="products"
-                  (emitOrders)="collectOrder($event)">
+                  (emitOrder)="collectOrder($event)">
     </app-boutique>
   </div>
 
   <div class="child">
     <app-buyer (emitPayment)="receivePayment($event)"
-               [orders]="orders">
+               [order]="order">
     </app-buyer>
   </div>
 </div>

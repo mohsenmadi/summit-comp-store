@@ -7,7 +7,7 @@ import {
   Output
 } from '@angular/core';
 import { Product } from "../product.model";
-import { createOrder, Order } from "../order.model";
+import { createOrderItem, OrderItem } from "../order.model";
 
 @Component({
   selector: 'app-boutique',
@@ -22,8 +22,8 @@ export class BoutiqueComponent implements OnInit, OnChanges, OnInit {
   //   2. the `@Output`
   //   3. orderMap and it's logic will be moved to store
   @Input() products!: Product[] | null;
-  @Output() emitOrders = new EventEmitter<Order[]>();
-  ordersMap = new Map<number, Order>;
+  @Output() emitOrder = new EventEmitter<OrderItem[]>();
+  orderMap = new Map<number, OrderItem>;
 
   // TODO-11:
   //   1. `dataSource` feeder now comes from the store, set it right
@@ -41,15 +41,15 @@ export class BoutiqueComponent implements OnInit, OnChanges, OnInit {
   //   1. yep, not needed too! `orderMap` logic is to be moved to store,
   //      and `dataSource` is already bound
   ngOnChanges() {
-    this.ordersMap.clear();
+    this.orderMap.clear();
     this.dataSource = this.products;
   }
 
   // TODO-14:
   //    1. all that's needed here is delegate the work to the store's `addOrder(...)`
-  addOrder(quantity: number, product: Product) {
-    const newOrder = createOrder(quantity, product);
-    this.ordersMap.set(product.id, newOrder);
-    this.emitOrders.emit([...this.ordersMap.values()]);
+  addOrderItem(quantity: number, product: Product) {
+    const newOrderItem = createOrderItem(quantity, product);
+    this.orderMap.set(product.id, newOrderItem);
+    this.emitOrder.emit([...this.orderMap.values()]);
   }
 }

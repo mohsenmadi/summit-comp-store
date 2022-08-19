@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Product, updateSoldProperty } from './product.model';
-import { Order } from "./order.model";
+import { OrderItem } from "./order.model";
 
 // TODO-1:
 //   1. [done] `npm i @ngrx/component-store`
@@ -32,7 +32,7 @@ export class OperationsService {
     {id: 60, sold: 0, name: 'Swim suit', cost: 15}
   ];
 
-  private ordersMap = new Map<number, Order>;
+  private orderMap = new Map<number, OrderItem>;
 
   // TODO-3:
   //   1. Extending a parent? then `super(...)` initialize it
@@ -46,7 +46,7 @@ export class OperationsService {
 
   // TODO-4:
   //   1. * Our most important property is `products`. Only after its set
-  //      can we view the Boutique and make `orders`, calculate `paymentDue`
+  //      can we view the Boutique and make `order`, calculate `paymentDue`
   //      and keep our total `earnings` in check after every payment.
   //      So, let's create a `setState` method that immutably returns the state,
   //      but overrides the default setting with our list of fresh `products`
@@ -66,22 +66,22 @@ export class OperationsService {
   //   1. create a readonly `addOrder` method that receives the `quantity` and
   //      the `product` ordered
   //   2. get a `newOrder` by calling the `createOrder` method
-  //   3. using `product.id` as key, "set" (add/modify) your `newOrder` in the `ordersMap`
-  //   4. * tune the `orders` with the `getOrdersWithQuantity` method; this refinement
+  //   3. using `product.id` as key, "set" (add/modify) your `newOrder` in the `orderMap`
+  //   4. * tune the `order` with the `getOrderItemsWithQuantity` method; this refinement
   //      is needed when the Buyer selects a quantity and then zeros it out;
-  //      we don't need to see orders with 0 quantity in the Buyer's table
-  //   That's it! We now have `orders` sync'ed up, which also means we can know
+  //      we don't need to see orderItems with 0 quantity in the Buyer's table
+  //   That's it! We now have `order` sync'ed up, which also means we can know
   //   the `paymentDue` should the Buyer decides to `makePayment()`, so:
-  //   5. patch the state of `orders` which you got in the previous step, and
+  //   5. patch the state of `order` which you got in the previous step, and
   //   6. * patch the state of `paymentDue` using the help of `getPaymentDue(...) method
   //   Now, suddenly, you should see both the Buyer's table and the running total get
   //   updated with every new order made (i.e., when the Buyer blurs)!
-  //   Why? Because they're sync'ed through `orders$` and `paymentDue$`
+  //   Why? Because they're sync'ed through `order$` and `paymentDue$`
 
   // uncomment and finish this: readonly addOrder = ...
 
-  updateSales(orders: Order[]) {
-    updateSoldProperty(this.products, orders);
+  updateSales(order: OrderItem[]) {
+    updateSoldProperty(this.products, order);
   }
 
   // TODO-19:
@@ -91,7 +91,7 @@ export class OperationsService {
   //   2. patchState of `earnings` by adding zip's observables
   //   we can now:
   //   3. patchState of `paymentDue` to be zero
-  //   4. patchState of `orders` to []
+  //   4. patchState of `order` to []
   //   5. call the `updateSales()` method
 
   // TODO-20:
@@ -100,7 +100,7 @@ export class OperationsService {
   //   2. use `updateSoldProperty()` to update products table.
   //      Here, the `quantity` of every sold product in the order is
   //      added to the overall `sold` property.
-  //      Parameters? (products, [...this.ordersMap.values()])
+  //      Parameters? (products, [...this.orderMap.values()])
   //   3. we're done with `orderMap` for the order made, clear it
   //   4. use the `productsUpdate` updater to update products to []
   //   5. use the `productsUpdate` updater to update products to `products`
@@ -113,10 +113,10 @@ export class OperationsService {
 // ====================== Accelerators ===================================
 
 // 1.2 `OperationsState` should manage
-//     `products: Product[]`, `orders: Order[]`,
+//     `products: Product[]`, `order: OrderItem[]`,
 //     `earnings: number` and `paymentDue:number`
 
-// 1.3 const defaultState: OperationsState = { products: [], orders: [],
+// 1.3 const defaultState: OperationsState = { products: [], order: [],
 //     earnings: 0, paymentDue: 0}
 
 // 2.1 export class OperationsService extends ComponentStore<OperationsState> {
@@ -129,9 +129,9 @@ export class OperationsService {
 // 6.1   readonly products$ = this.select(({products}) => products);    or equally:
 //       readonly products$ = this.select(state => state.products);
 
-// 18.4  const orders = getOrdersWithQuantity([...this.ordersMap.values()]);
+// 18.4  const order = getOrderItemsWithQuantity([...this.orderMap.values()]);
 
-// 18.6  this.patchState({paymentDue: getPaymentDue(orders)}); (shortest style)
+// 18.6  this.patchState({paymentDue: getPaymentDue(order)}); (shortest style)
 //       see https://ngrx.io/guide/component-store/write for other styles
 
 // 19.1     zip(this.earnings$, this.paymentDue$)
@@ -145,8 +145,8 @@ export class OperationsService {
 //     this.products$
 //       .pipe(take(1))
 //       .subscribe(products => {
-//         updateSoldProperty(products, [...this.ordersMap.values()]);
-//         this.ordersMap.clear();
+//         updateSoldProperty(products, [...this.orderMap.values()]);
+//         this.orderMap.clear();
 //         this.productsUpdate([]);
 //         this.productsUpdate(products);
 //       });
