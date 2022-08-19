@@ -30,7 +30,7 @@ export class OperationsService extends ComponentStore<OperationsState> {
     {id: 60, sold: 0, name: 'Swim suit', cost: 15}
   ];
 
-  private orderMap = new Map<number, OrderItem>;
+  private orderMap = new Map<number, OrderItem>();
 
   constructor() {
     super(defaultState);
