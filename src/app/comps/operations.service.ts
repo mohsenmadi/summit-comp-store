@@ -1,6 +1,6 @@
 import { Product, updateSoldProperty } from './product.model';
 import { map, take, zip } from "rxjs";
-import { createOrderItem, getOrderItemsWithQuantity, getPaymentDue, OrderItem } from "./order.model";
+import { createOrderItem, getOrderItemsWithQuantity, getPaymentDue, OrderItem } from "./order-item.model";
 import { ComponentStore } from "@ngrx/component-store";
 import { Injectable } from "@angular/core";
 
