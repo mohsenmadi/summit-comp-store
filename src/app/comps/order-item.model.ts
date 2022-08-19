@@ -7,13 +7,13 @@ export interface OrderItem {
   quantity: number;
 }
 
-export const createOrderItem = (quantity: number, product: Product) => {
+export const createOrderItem = (quantity: number, product: Product): OrderItem => {
   return {
     id: product.id,
     quantity: quantity,
     cost: product.cost,
     name: product.name
-  } as OrderItem;
+  };
 };
 
 export const getPaymentDue = (order: OrderItem[]) =>

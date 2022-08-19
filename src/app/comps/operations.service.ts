@@ -74,11 +74,11 @@ export class OperationsService {
   //      is needed when the Buyer selects a quantity and then zeros it out;
   //      we don't need to see orderItems with 0 quantity in the Buyer's table
   //   That's it! We now have `order` sync'ed up, which also means we can know
-  //   the `paymentDue` should the Buyer decides to `makePayment()`, so:
+  //     the `paymentDue` should the Buyer decides to `makePayment()`, so:
   //   5. patch the state of `order` with what you got in the previous step, and
   //   6. * patch the state of `paymentDue` using the help of `getPaymentDue(...) method.
   //   Now, suddenly, you should see both the Buyer's table and the running total get
-  //   updated with every new order made (i.e., upon `blur` events)!
+  //     updated with every new order made (i.e., upon `blur` events)!
   //   Why? Because they're sync'ed through `order$` and `paymentDue$`
 
   readonly addOrderItem = (quantity: number, product: Product) => {
@@ -89,30 +89,32 @@ export class OperationsService {
   //   1. [done] create a `makePayment()` method that when
   //      the Buyer clicks the buy (shop-cart) button:
   //   2. * use RxJS' zip() on `earnings$` and `paymentDue$`
-  //   3. * `map` the `zip` array into the sum of both observables' properties
+  //   3. * `map` `zip`s callback array-value into the sum of both observables' properties
   //   we can now:
-  //   4. patchState of `paymentDue` to be zero
-  //   5. patchState of `order` to []
-  //   6. call the `updateSales()` method
+  //   4. patchState of `earnings` to (you know what)
+  //   5. patchState of `paymentDue` to (well, payment is received, reset?)
+  //   6. patchState of `order` to (we're starting fresh, so...)
+  //   7. call the `updateSales()` method (see T0DO-20 for that)
 
   readonly makePayment = () => {
     // fill me in...
   }
 
-    // TODO-20:
+  // TODO-20:
   //   * Re-write the `updateSales() method that does this:
   //   1. subscribe to `products$` to fetch them
   //   2. use `updateSoldProperty()` to update products table.
   //      Here, the `quantity` of every sold product in the order is
   //      added to the overall `sold` property.
   //   3. we're done with `orderMap` for the order made, clear it
-  //   4. use the `productsUpdate` updater to update products to []
+  //   4. * use the `productsUpdate` updater to update products to []
   //   5. use the `productsUpdate` updater to update products to `products`
   //      We need instruction 4 to allow us to reset the UI's DOM; otherwise,
-  //      those `quantity` fields (which are not part of the Product model)
+  //        those `quantity` fields (which are not part of the Product model)
   //      will not get cleared. Appreciate how fast this happens!
+  //      Wanna see for yourself? Comment out step 4 and see behavior Boutique
+  //        table behavior after `makePayment()`
   //      No need to create BehaviorSubject, emit here and subscribe there.
-
   updateSales(order: OrderItem[]) {
     updateSoldProperty(this.products, order);
   }
