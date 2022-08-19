@@ -52,9 +52,9 @@ export class OperationsService extends ComponentStore<OperationsState> {
     products
   }));
 
-  readonly addOrder = (quantity: number, product: Product) => {
-    const newOrder = createOrderItem(quantity, product);
-    this.orderMap.set(product.id, newOrder);
+  readonly addOrderItem = (quantity: number, product: Product) => {
+    const newOrderItem = createOrderItem(quantity, product);
+    this.orderMap.set(product.id, newOrderItem);
     const order = getOrderItemsWithQuantity([...this.orderMap.values()]);
     this.patchState({order});
     this.patchState({paymentDue: getPaymentDue(order)});
