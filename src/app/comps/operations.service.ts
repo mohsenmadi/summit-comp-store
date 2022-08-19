@@ -6,7 +6,7 @@ import { OrderItem } from "./order-item.model";
 //   1. [done] `npm i @ngrx/component-store`
 //   2. * Think: the state of what properties do we need to maintain?
 //      Then, create an interface `OperationsState` that houses them
-//      When done, cross-check with Accelerator#1.2 below
+//      When done, cross-check with Accelerator#1.2 (scroll to end of page)
 //   3. * What would the default (initial) value be for each property?
 //      Create an object `defaultState` of type `OperationsState`
 //      that sets them right
@@ -33,7 +33,7 @@ export class OperationsService {
   ];
 
   // leave this as is, you'll need it later
-  private orderMap = new Map<number, OrderItem>;
+  private orderMap = new Map<number, OrderItem>();
 
   // TODO-3:
   //   1. Extending a parent? then `super(...)` initialize it
