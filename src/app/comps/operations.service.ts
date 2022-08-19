@@ -62,7 +62,8 @@ export class OperationsService {
 
   // TODO-18:
   //   At this time, you have have an error-free running app since all selectors
-  //   are nicely available. What's needed now is to sync data up upon receiving
+  //   are nicely available and subscribers are nicely latched on them.
+  //   What's needed now is to sync data up upon receiving
   //   events form the UI. Let's handle what happens when an `addOrder()`
   //   is triggered:
   //   1. [done] create a readonly `addOrderItem` method that receives the `quantity` and
@@ -88,7 +89,7 @@ export class OperationsService {
   //   1. [done] create a `makePayment()` method that when
   //      the Buyer clicks the buy (shop-cart) button:
   //   2. * use RxJS' zip() on `earnings$` and `paymentDue$`
-  //   3. patchState of `earnings` by adding zip's observables
+  //   3. * `map` the `zip` array into the sum of both observables' properties
   //   we can now:
   //   4. patchState of `paymentDue` to be zero
   //   5. patchState of `order` to []

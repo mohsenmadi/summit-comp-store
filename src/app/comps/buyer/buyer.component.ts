@@ -47,3 +47,5 @@ export class BuyerComponent implements OnChanges {
 // <ng-container *ngIf="paymentDue$ | async as paymentDue">
 //   {{ paymentDue | currency }}
 // </ng-container>
+// and
+// fix Line 40 while you're at it
