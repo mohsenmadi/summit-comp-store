@@ -80,41 +80,45 @@ export class OperationsService {
   //   updated with every new order made (i.e., upon `blur` events)!
   //   Why? Because they're sync'ed through `order$` and `paymentDue$`
 
-  readonly addOrderItem = (quantity:number, product: Product) => {
+  readonly addOrderItem = (quantity: number, product: Product) => {
     // issue the five statements needed here
   }
 
-  updateSales(order: OrderItem[]) {
-    updateSoldProperty(this.products, order);
+  // TODO-19:
+  //   1. [done] create a `makePayment()` method that when
+  //      the Buyer clicks the buy (shop-cart) button:
+  //   2. * use RxJS' zip() on `earnings$` and `paymentDue$`
+  //   3. patchState of `earnings` by adding zip's observables
+  //   we can now:
+  //   4. patchState of `paymentDue` to be zero
+  //   5. patchState of `order` to []
+  //   6. call the `updateSales()` method
+
+  readonly makePayment = () => {
+    // fill me in...
   }
 
-  // TODO-19:
-  //   create a `makePayment()` method that does this: When the Buyer
-  //   clicks the buy (shop-cart), it does this:
-  //   1. * use RxJS' zip() on `earnings$` and `paymentDue$`
-  //   2. patchState of `earnings` by adding zip's observables
-  //   we can now:
-  //   3. patchState of `paymentDue` to be zero
-  //   4. patchState of `order` to []
-  //   5. call the `updateSales()` method
-
-  // TODO-20:
-  //   * Create an `updateSales() method that does this:
+    // TODO-20:
+  //   * Re-write the `updateSales() method that does this:
   //   1. subscribe to `products$` to fetch them
   //   2. use `updateSoldProperty()` to update products table.
   //      Here, the `quantity` of every sold product in the order is
   //      added to the overall `sold` property.
-  //      Parameters? (products, [...this.orderMap.values()])
   //   3. we're done with `orderMap` for the order made, clear it
   //   4. use the `productsUpdate` updater to update products to []
   //   5. use the `productsUpdate` updater to update products to `products`
-  //      We need instruction 4 to allow us to reset the UI; otherwise, those
-  //      `quantity` fields which are not part of the Product model will never
-  //       get cleared.
+  //      We need instruction 4 to allow us to reset the UI's DOM; otherwise,
+  //      those `quantity` fields (which are not part of the Product model)
+  //      will not get cleared. Appreciate how fast this happens!
+  //      No need to create BehaviorSubject, emit here and subscribe there.
+
+  updateSales(order: OrderItem[]) {
+    updateSoldProperty(this.products, order);
+  }
 }
 
 
-// ====================== Accelerators ===================================
+// ====================== Accelerators =================================
 
 // 1.2 `OperationsState` should manage
 //     `products: Product[]`, `order: OrderItem[]`,
@@ -138,7 +142,7 @@ export class OperationsService {
 // 18.6  this.patchState({paymentDue: getPaymentDue(order)}); (shortest style)
 //       see https://ngrx.io/guide/component-store/write for other styles
 
-// 19.1     zip(this.earnings$, this.paymentDue$)
+// 19.2     zip(this.earnings$, this.paymentDue$)
 //           .pipe(
 //             take(1),
 //             map(pair => pair[0] + pair[1])

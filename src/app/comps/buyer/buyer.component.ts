@@ -12,9 +12,9 @@ export class BuyerComponent implements OnChanges {
   //   With the right updaters, patchers and selectors, we can do without
   //   1. the `@Input`
   //   2. the `@Output`
-  //   3. now that `order$` can be sync'ed up in store, that's
-  //      you `dataSource`
-  //   4. * and... deal with `paymentDue` too
+  //   3. inject the store in a `constructor`
+  //   4. now that `order$` is sync'ed up in store, make it your `dataSource`
+  //   5. * and... deal with `paymentDue` too
   @Input() order: OrderItem[] = [];
   @Output() emitPayment = new EventEmitter<number>();
 
@@ -42,7 +42,8 @@ export class BuyerComponent implements OnChanges {
   }
 }
 
-// 15.4 in the template, Lines 28+ should become:
+// 15.5 `paymentDue` becomes `paymentDue$`, so in the template,
+//      Lines 28-30 should become:
 // <ng-container *ngIf="paymentDue$ | async as paymentDue">
 //   {{ paymentDue | currency }}
 // </ng-container>
