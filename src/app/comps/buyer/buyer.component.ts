@@ -10,7 +10,7 @@ export class BuyerComponent {
 
   paymentDue$ = this.store.paymentDue$;
 
-  dataSource = this.store.orders$;
+  dataSource = this.store.order$;
   displayedColumns: string[] = ['name', 'cost', 'quantity', 'due'];
 
   constructor(private store: OperationsService) {

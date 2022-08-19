@@ -1,4 +1,4 @@
-import { Order } from "./order.model";
+import { OrderItem } from "./order.model";
 
 export interface Product {
   id: number;
@@ -7,9 +7,9 @@ export interface Product {
   cost: number;
 }
 
-export const updateSoldProperty = (products: Product[], orders: Order[]) =>
-  orders.forEach(order => {
+export const updateSoldProperty = (products: Product[], order: OrderItem[]) =>
+  order.forEach(orderItem => {
     const product: any =
-      products.find(product => product.id === order.id);
-    product.sold += order.quantity;
+      products.find(product => product.id === orderItem.id);
+    product.sold += orderItem.quantity;
   });

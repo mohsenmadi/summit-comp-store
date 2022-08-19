@@ -1,19 +1,19 @@
 import { Product, updateSoldProperty } from './product.model';
 import { map, take, zip } from "rxjs";
-import { createOrder, getOrdersWithQuantity, getPaymentDue, Order } from "./order.model";
+import { createOrderItem, getOrderItemsWithQuantity, getPaymentDue, OrderItem } from "./order.model";
 import { ComponentStore } from "@ngrx/component-store";
 import { Injectable } from "@angular/core";
 
 export interface OperationsState {
   products: Product[];
-  orders: Order[];
+  order: OrderItem[];
   earnings: number;
   paymentDue: number;
 }
 
 const defaultState: OperationsState = {
   products: [],
-  orders: [],
+  order: [],
   earnings: 0,
   paymentDue: 0
 };
@@ -30,7 +30,7 @@ export class OperationsService extends ComponentStore<OperationsState> {
     {id: 60, sold: 0, name: 'Swim suit', cost: 15}
   ];
 
-  private ordersMap = new Map<number, Order>;
+  private orderMap = new Map<number, OrderItem>;
 
   constructor() {
     super(defaultState);
@@ -45,7 +45,7 @@ export class OperationsService extends ComponentStore<OperationsState> {
   readonly products$ = this.select(({products}) => products);
   readonly paymentDue$ = this.select((state => state.paymentDue));
   readonly earnings$ = this.select(({earnings}) => earnings);
-  readonly orders$ = this.select(({orders}) => orders);
+  readonly order$ = this.select(({order}) => order);
 
   readonly productsUpdate = this.updater((state, products: Product[]) => ({
     ...state,
@@ -53,11 +53,11 @@ export class OperationsService extends ComponentStore<OperationsState> {
   }));
 
   readonly addOrder = (quantity: number, product: Product) => {
-    const newOrder = createOrder(quantity, product);
-    this.ordersMap.set(product.id, newOrder);
-    const orders = getOrdersWithQuantity([...this.ordersMap.values()]);
-    this.patchState({orders});
-    this.patchState({paymentDue: getPaymentDue(orders)});
+    const newOrder = createOrderItem(quantity, product);
+    this.orderMap.set(product.id, newOrder);
+    const order = getOrderItemsWithQuantity([...this.orderMap.values()]);
+    this.patchState({order});
+    this.patchState({paymentDue: getPaymentDue(order)});
   };
 
   readonly makePayment = () => {
@@ -69,7 +69,7 @@ export class OperationsService extends ComponentStore<OperationsState> {
       .subscribe(earnings => {
         this.patchState({earnings});
         this.patchState({paymentDue: 0});
-        this.patchState({orders: []});
+        this.patchState({order: []});
         this.updateSales();
       });
   };
@@ -78,8 +78,8 @@ export class OperationsService extends ComponentStore<OperationsState> {
     this.products$
       .pipe(take(1))
       .subscribe(products => {
-        updateSoldProperty(products, [...this.ordersMap.values()]);
-        this.ordersMap.clear();
+        updateSoldProperty(products, [...this.orderMap.values()]);
+        this.orderMap.clear();
         this.productsUpdate([]);
         this.productsUpdate(products);
       });
