@@ -127,23 +127,38 @@ export class OperationsService {
 //     `products: Product[]`, `order: OrderItem[]`,
 //     `earnings: number` and `paymentDue:number`
 
+
 // 1.3 const defaultState: OperationsState = { products: [], order: [],
 //     earnings: 0, paymentDue: 0}
 
+
 // 2.1 export class OperationsService extends ComponentStore<OperationsState> {
 
-// 4.1   readonly loadProducts = () => this.setState((state) => ({
-//         ...state,
-//         products: this.products
-//       }));
+
+// 4.1   readonly loadProducts = (products: Product[]) => this.setState((state) => ({
+//     ...state,
+//     products
+//   }));
+//
+// while you're at it, let's add the method below, another variant of updating state;
+//   T0D0-20 would love you for this addition later on:
+//
+//   readonly productsUpdate = this.updater((state, products: Product[]) => ({
+//     ...state,
+//     products
+//   }));
+
 
 // 6.1   readonly products$ = this.select(({products}) => products);    or equally:
 //       readonly products$ = this.select(state => state.products);
 
+
 // 18.4  const order = getOrderItemsWithQuantity([...this.orderMap.values()]);
+
 
 // 18.6  this.patchState({paymentDue: getPaymentDue(order)}); (shortest style)
 //       see https://ngrx.io/guide/component-store/write for other styles
+
 
 // 19.2     zip(this.earnings$, this.paymentDue$)
 //           .pipe(
@@ -151,6 +166,7 @@ export class OperationsService {
 //             map(pair => pair[0] + pair[1])
 //            )
 //           .subscribe(earnings => {...
+
 
 // 20:   readonly updateSales = () => {
 //     this.products$
