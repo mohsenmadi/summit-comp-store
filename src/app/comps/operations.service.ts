@@ -34,12 +34,12 @@ export class OperationsService extends ComponentStore<OperationsState> {
 
   constructor() {
     super(defaultState);
-    this.loadProducts();
+    this.loadProducts(this.products);
   }
 
-  readonly loadProducts = () => this.setState((state) => ({
+  readonly loadProducts = (products: Product[]) => this.setState((state) => ({
     ...state,
-    products: this.products
+    products
   }));
 
   readonly products$ = this.select(({products}) => products);
