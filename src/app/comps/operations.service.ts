@@ -60,22 +60,22 @@ export class OperationsService {
 
   // TODO-18:
   //   At this time, you have have an error-free running app since all selectors
-  //   are nicely available. What's needed now is to sync data up upon events
-  //   received from the components. Let's handle what happens when an `addOrder()`
+  //   are nicely available. What's needed now is to sync data up upon receiving
+  //   events form the UI. Let's handle what happens when an `addOrder()`
   //   is triggered:
-  //   1. create a readonly `addOrder` method that receives a `quantity` and
+  //   1. create a readonly `addOrder` method that receives the `quantity` and
   //      the `product` ordered
   //   2. get a `newOrder` by calling the `createOrder` method
-  //   3. using `product.id` as key, "set" your `newOrder` in the `ordersMap`
+  //   3. using `product.id` as key, "set" (add/modify) your `newOrder` in the `ordersMap`
   //   4. * tune the `orders` with the `getOrdersWithQuantity` method; this refinement
   //      is needed when the Buyer selects a quantity and then zeros it out;
   //      we don't need to see orders with 0 quantity in the Buyer's table
-  //   That's it! We now have `orders` sync'ed up, which means we also know can know
+  //   That's it! We now have `orders` sync'ed up, which also means we can know
   //   the `paymentDue` should the Buyer decides to `makePayment()`, so:
-  //   5. patch the state of `orders`, and
+  //   5. patch the state of `orders` which you got in the previous step, and
   //   6. * patch the state of `paymentDue` using the help of `getPaymentDue(...) method
   //   Now, suddenly, you should see both the Buyer's table and the running total get
-  //   updated with every new order made (i.e., blurred)!
+  //   updated with every new order made (i.e., when the Buyer blurs)!
   //   Why? Because they're sync'ed through `orders$` and `paymentDue$`
 
   // uncomment and finish this: readonly addOrder = ...
@@ -84,21 +84,29 @@ export class OperationsService {
     updateSoldProperty(this.products, orders);
   }
 
-  // TODO: create a `makePayment()` method that does this:
-  //   1. use rxjs's zip() on `earnings$` and `this.paymentDue$`
+  // TODO-19:
+  //   create a `makePayment()` method that does this: When the Buyer
+  //   clicks the buy (shop-cart), it does this:
+  //   1. * use rxjs's zip() on `earnings$` and `this.paymentDue$`
   //   2. patchState of `earnings` by adding zip's observables
   //   we can now:
-  //   3. patchState of `paymentDue` to zero now
+  //   3. patchState of `paymentDue` to be zero
   //   4. patchState of `orders` to []
   //   5. call the `updateSales()` method
 
-  // TODO: create an `updateSales() method that does this:
-  //   1. subscribe to `products$` to fetch `products`
-  //   2. use `updateSoldProperty()` to update data
-  //      parameters? (products, [...this.ordersMap.values()])
-  //   3. we're done with `orderMap`, clear it
-  //   4. update `productsUpdate` method update the state of `products`
-  //   5. inform subscribers of `emitPaymentProcessed` that we're done
+  // TODO-20:
+  //   * Create an `updateSales() method that does this:
+  //   1. subscribe to `products$` to fetch them
+  //   2. use `updateSoldProperty()` to update products table.
+  //      Here, the `quantity` of every sold product in the order is
+  //      added to the overall `sold` property.
+  //      Parameters? (products, [...this.ordersMap.values()])
+  //   3. we're done with `orderMap` for the order made, clear it
+  //   4. use the `productsUpdate` updater to update products to []
+  //   5. use the `productsUpdate` updater to update products to `products`
+  //      We need instruction 4 to allow us to reset the UI; otherwise, those
+  //      `quantity` fields which are not part of the Product model will never
+  //       get cleared.
 }
 
 
@@ -126,3 +134,20 @@ export class OperationsService {
 // 18.6  this.patchState({paymentDue: getPaymentDue(orders)}); (shortest style)
 //       see https://ngrx.io/guide/component-store/write for other styles
 
+// 19.1     zip(this.earnings$, this.paymentDue$)
+//           .pipe(
+//             take(1),
+//             map(pair => pair[0] + pair[1])
+//            )
+//           .subscribe(earnings => {...
+
+// 20:   readonly updateSales = () => {
+//     this.products$
+//       .pipe(take(1))
+//       .subscribe(products => {
+//         updateSoldProperty(products, [...this.ordersMap.values()]);
+//         this.ordersMap.clear();
+//         this.productsUpdate([]);
+//         this.productsUpdate(products);
+//       });
+//   };
