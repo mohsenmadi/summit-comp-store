@@ -7,7 +7,6 @@ import { OperationsService } from "../operations.service";
   styleUrls: ['./buyer.component.scss']
 })
 export class BuyerComponent {
-
   paymentDue$ = this.store.paymentDue$;
 
   dataSource = this.store.order$;
